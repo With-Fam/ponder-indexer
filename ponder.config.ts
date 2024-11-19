@@ -1,21 +1,21 @@
 import { createConfig } from "@ponder/core";
 import { http } from "viem";
 
-import { ExampleContractAbi } from "./abis/ExampleContractAbi";
+import { SubscriptionTokenV1Abi } from "./abis/SubscriptionTokenV1Abi";
+import { baseSepolia } from "viem/chains";
 
 export default createConfig({
   networks: {
-    mainnet: {
-      chainId: 1,
-      transport: http(process.env.PONDER_RPC_URL_1),
+    baseSepolia: {
+      chainId: baseSepolia.id,
+      transport: http("https://base-sepolia.blockpi.network/v1/rpc/public"),
     },
   },
   contracts: {
-    ExampleContract: {
-      network: "mainnet",
-      abi: ExampleContractAbi,
-      address: "0x0000000000000000000000000000000000000000",
-      startBlock: 1234567,
+    SubscriptionTokenV1Contract: {
+      network: "baseSepolia",
+      abi: SubscriptionTokenV1Abi,
+      startBlock: 11111111,
     },
   },
 });
