@@ -9,7 +9,10 @@ export default createConfig({
   networks: {
     baseSepolia: {
       chainId: baseSepolia.id,
-      transport: http("https://base-sepolia.blockpi.network/v1/rpc/public"),
+      transport: http(
+        process.env.PONDER_RPC_URL_84532 ||
+          "https://base-sepolia.blockpi.network/v1/rpc/public"
+      ),
     },
   },
   contracts: {
@@ -22,7 +25,7 @@ export default createConfig({
     SubscriptionTokenV1Contract: {
       network: "baseSepolia",
       abi: SubscriptionTokenV1Abi,
-      startBlock: 11111111,
+      startBlock: 18128556,
     },
   },
 });

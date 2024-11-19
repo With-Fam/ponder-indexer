@@ -16,15 +16,12 @@ export async function getPartiesForHypersubSet(
       query: stack
         .eventsQuery()
         .where({
-          eventType: "user_signup",
           associatedAccount: getAddress(hypersubAddress.toLowerCase()),
         })
         .offset(0)
         .build(),
     });
-    console.log("Stack API Response:", JSON.stringify(response, null, 2));
     if (!response || !response.length) {
-      console.error("Invalid response format from Stack API");
       return [];
     }
 
