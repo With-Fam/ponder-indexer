@@ -16,7 +16,7 @@ export default createConfig({
     ManageFamAuthority: {
       network: "baseSepolia",
       abi: ManageFamAuthorityAbi,
-      startBlock: 16015816,
+      startBlock: 17218719,
       address: "0x8eaC17a5A609976507734e979873d7c3B3eEbeb6",
     },
     SubscriptionTokenV1Contract: {
