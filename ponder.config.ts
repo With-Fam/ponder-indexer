@@ -1,18 +1,15 @@
 import { createConfig } from "@ponder/core";
 import { http } from "viem";
-
 import { SubscriptionTokenV1Abi } from "./abis/SubscriptionTokenV1Abi";
 import { baseSepolia } from "viem/chains";
 import { ManageFamAuthorityAbi } from "./abis/ManageFamAuthorityAbi";
+import { BASE_SEPOLIA_RPC_URL } from "./src/consts";
 
 export default createConfig({
   networks: {
     baseSepolia: {
       chainId: baseSepolia.id,
-      transport: http(
-        process.env.PONDER_RPC_URL_84532 ||
-          "https://base-sepolia.blockpi.network/v1/rpc/public"
-      ),
+      transport: http(BASE_SEPOLIA_RPC_URL),
     },
   },
   contracts: {

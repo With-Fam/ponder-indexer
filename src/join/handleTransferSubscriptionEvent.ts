@@ -4,13 +4,14 @@ import { Address, createPublicClient, http } from "viem";
 import { baseSepolia } from "viem/chains";
 import { ManageFamAuthorityAbi } from "../../abis/ManageFamAuthorityAbi";
 import { account, walletClient } from "../viem/wallet";
+import { BASE_SEPOLIA_RPC_URL } from "../consts";
 
 const MANAGE_FAM_AUTHORITY_ADDRESS =
   "0x8eaC17a5A609976507734e979873d7c3B3eEbeb6";
 
 const publicClient = createPublicClient({
   chain: baseSepolia,
-  transport: http("https://base-sepolia.blockpi.network/v1/rpc/public"),
+  transport: http(BASE_SEPOLIA_RPC_URL),
 });
 
 const handleTransferSubscriptionEvent = async ({
