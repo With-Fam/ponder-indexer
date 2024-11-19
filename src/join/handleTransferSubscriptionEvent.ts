@@ -1,8 +1,9 @@
 import { Context, Event } from "@/generated";
 import { getPartiesForHypersubSet } from "../stack/getPartiesForHypersubSet";
-import { createPublicClient, http } from "viem";
+import { Address, createPublicClient, http } from "viem";
 import { baseSepolia } from "viem/chains";
 import { ManageFamAuthorityAbi } from "../../abis/ManageFamAuthorityAbi";
+import { account, walletClient } from "../viem/wallet";
 
 const MANAGE_FAM_AUTHORITY_ADDRESS =
   "0x8eaC17a5A609976507734e979873d7c3B3eEbeb6";
@@ -19,15 +20,12 @@ const handleTransferSubscriptionEvent = async ({
   event: Event;
   context: Context;
 }) => {
-  // Get the contract address emitting the event
   const contractAddress = event.log.address;
   const subscriber = event.args.to;
 
   try {
-    // Get all parties configured for this hypersub contract
     const hypersubEvents = await getPartiesForHypersubSet(contractAddress);
 
-    // If no parties are configured for this hypersub, it's not configured
     if (hypersubEvents.length === 0) {
       console.log(
         `Contract ${contractAddress} is not configured with ManageFamAuthority`
@@ -35,9 +33,8 @@ const handleTransferSubscriptionEvent = async ({
       return;
     }
 
-    // Get the most recent party configuration
     const mostRecentConfig = hypersubEvents[hypersubEvents.length - 1];
-    const partyAddress = mostRecentConfig.party;
+    const partyAddress = mostRecentConfig.party as Address;
 
     console.log(
       `Contract ${contractAddress} is configured with ManageFamAuthority - Party: ${partyAddress}`
@@ -45,26 +42,40 @@ const handleTransferSubscriptionEvent = async ({
 
     // Simulate the addPartyCards call
     try {
-      const { request } = await publicClient.simulateContract({
-        account: subscriber,
+      console.log("Simulating addPartyCards", account.address);
+      // const { request } = await publicClient.simulateContract({
+      //   account: account.address,
+      //   address: MANAGE_FAM_AUTHORITY_ADDRESS,
+      //   abi: ManageFamAuthorityAbi,
+      //   functionName: "addPartyCards",
+      //   args: [partyAddress, [subscriber], [1n], [subscriber]],
+      // });
+
+      // console.log("addPartyCards simulation successful");
+
+      // Execute the actual transaction
+      const hash = await walletClient.writeContract({
+        account,
         address: MANAGE_FAM_AUTHORITY_ADDRESS,
         abi: ManageFamAuthorityAbi,
         functionName: "addPartyCards",
-        args: [
-          partyAddress, // party address
-          [subscriber], // newPartyMembers array with single subscriber
-          [1n], // newPartyMemberVotingPowers array (1 voting power)
-          [subscriber], // initialDelegates array (self-delegation)
-        ],
+        args: [partyAddress, [subscriber], [1n], [subscriber]],
+        chain: baseSepolia,
       });
 
-      console.log("addPartyCards simulation successful", request);
-    } catch (simulationError) {
-      console.error("addPartyCards simulation failed:", simulationError);
+      console.log("addPartyCards transaction sent:", hash);
+
+      // Wait for transaction confirmation
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+
+      console.log(
+        "addPartyCards transaction confirmed:",
+        receipt.transactionHash
+      );
+    } catch (error) {
+      console.error("Error executing addPartyCards:", error);
       return;
     }
-
-    // TODO: If simulation successful, proceed with actual addPartyCards call
   } catch (error) {
     console.error("Error verifying hypersub configuration:", error);
     return;
