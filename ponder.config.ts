@@ -3,7 +3,10 @@ import { http } from "viem";
 import { SubscriptionTokenV1Abi } from "./abis/SubscriptionTokenV1Abi";
 import { baseSepolia } from "viem/chains";
 import { ManageFamAuthorityAbi } from "./abis/ManageFamAuthorityAbi";
-import { BASE_SEPOLIA_RPC_URL } from "./src/consts";
+import {
+  BASE_SEPOLIA_RPC_URL,
+  MANAGE_FAM_AUTHORITY_ADDRESS,
+} from "./src/consts";
 
 export default createConfig({
   networks: {
@@ -17,7 +20,7 @@ export default createConfig({
       network: "baseSepolia",
       abi: ManageFamAuthorityAbi,
       startBlock: 17218719,
-      address: "0x8eaC17a5A609976507734e979873d7c3B3eEbeb6",
+      address: MANAGE_FAM_AUTHORITY_ADDRESS,
     },
     SubscriptionTokenV1Contract: {
       network: "baseSepolia",
