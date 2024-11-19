@@ -1,8 +1,9 @@
 import { ponder } from "@/generated";
+import handleHypersubSetEvent from "./join/handleHypersubSetEvent";
 
-ponder.on(
-  "SubscriptionTokenV1Contract:Transfer",
-  async ({ event, context }) => {
-    console.log("EVENT", event);
-  }
-);
+// ponder.on(
+//   "SubscriptionTokenV1Contract:Transfer",
+//   handleTransferSubscriptionEvent
+// );
+
+ponder.on("ManageFamAuthority:HypersubSet", handleHypersubSetEvent);
