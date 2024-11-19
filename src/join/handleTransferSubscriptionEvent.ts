@@ -5,6 +5,7 @@ import { baseSepolia } from "viem/chains";
 import { ManageFamAuthorityAbi } from "../../abis/ManageFamAuthorityAbi";
 import { account, walletClient } from "../viem/wallet";
 import { BASE_SEPOLIA_RPC_URL } from "../consts";
+import { IndexerParams, IndexerParams } from "../types";
 
 const MANAGE_FAM_AUTHORITY_ADDRESS =
   "0x8eaC17a5A609976507734e979873d7c3B3eEbeb6";
@@ -17,10 +18,7 @@ const publicClient = createPublicClient({
 const handleTransferSubscriptionEvent = async ({
   event,
   context,
-}: {
-  event: Event;
-  context: Context;
-}) => {
+}: IndexerParams) => {
   const contractAddress = event.log.address;
   const subscriber = event.args.to;
 
