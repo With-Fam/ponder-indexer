@@ -1,15 +1,10 @@
 import { getPartiesForHypersubSet } from "../stack/getPartiesForHypersubSet";
-import { Address, createPublicClient, http } from "viem";
-import { baseSepolia } from "viem/chains";
+import { Address } from "viem";
 import { ManageFamAuthorityAbi } from "../../abis/ManageFamAuthorityAbi";
 import { account, walletClient } from "../viem/wallet";
-import { BASE_SEPOLIA_RPC_URL, MANAGE_FAM_AUTHORITY_ADDRESS } from "../consts";
+import { MANAGE_FAM_AUTHORITY_ADDRESS } from "../consts";
 import { IndexerParams } from "../types";
-
-const publicClient = createPublicClient({
-  chain: baseSepolia,
-  transport: http(BASE_SEPOLIA_RPC_URL),
-});
+import { publicClient } from "../viem/publicClient";
 
 const handleTransferSubscriptionEvent = async ({
   event,
