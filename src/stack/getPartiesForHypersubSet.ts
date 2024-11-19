@@ -1,7 +1,5 @@
-import { StackClient } from "@stackso/js-core";
+import { getAddress } from "viem";
 import { stack } from "./client";
-
-// Initialize Stack client
 
 export interface HypersubSetEvent {
   party: string;
@@ -14,17 +12,23 @@ export async function getPartiesForHypersubSet(
   hypersubAddress: string
 ): Promise<HypersubSetEvent[]> {
   try {
-    // Get all events for the hypersub_set event type
     const response = await stack.getEvents({
-      eventName: "hypersub_set",
-      filters: {
-        // Filter events where the hypersub address matches
-        account: hypersubAddress.toLowerCase(),
-      },
+      query: stack
+        .eventsQuery()
+        .where({
+          eventType: "user_signup",
+          associatedAccount: getAddress(hypersubAddress.toLowerCase()),
+        })
+        .offset(0)
+        .build(),
     });
+    console.log("Stack API Response:", JSON.stringify(response, null, 2));
+    if (!response || !response.length) {
+      console.error("Invalid response format from Stack API");
+      return [];
+    }
 
-    // Map the events to our expected format
-    return response.events.map((event) => ({
+    return response.map((event) => ({
       party: event.metadata.party as string,
       hypersub: event.account,
       blockNumber: event.metadata.blockNumber as string,
@@ -32,6 +36,6 @@ export async function getPartiesForHypersubSet(
     }));
   } catch (error) {
     console.error("Error fetching HypersubSet events:", error);
-    throw error;
+    return [];
   }
 }
