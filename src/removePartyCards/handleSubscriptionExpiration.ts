@@ -1,6 +1,5 @@
 import { publicClient } from "../viem/publicClient";
 import { SubscriptionTokenV1Abi } from "../../abis/SubscriptionTokenV1Abi";
-import { getNextSubscriptionExpiration } from "../stack/getNextSubscriptionExpiration";
 import { Address } from "viem";
 import getAllSubscriptionExtendedEvents from "../stack/getAllSubscriptionExtendedEvents";
 import removePartyCards from "./removePartyCards";
@@ -8,12 +7,6 @@ import { getPartiesForHypersubSet } from "../stack/getPartiesForHypersubSet";
 import { PartyAbi } from "../../abis/PartyAbi";
 
 export async function handleSubscriptionExpiration() {
-  const currentTime = Math.floor(Date.now() / 1000).toString();
-  const nextExpiration = await getNextSubscriptionExpiration();
-  if (!nextExpiration || currentTime < nextExpiration) {
-    return;
-  }
-
   const expiringSubscriptions = await getAllSubscriptionExtendedEvents();
   for (const subscription of expiringSubscriptions) {
     const subscriber = subscription.address as Address;
@@ -39,6 +32,7 @@ export async function handleSubscriptionExpiration() {
       functionName: "balanceOf",
       args: [subscriber],
     });
+    if (balanceOf === 0n) continue;
     const tokenCount = await publicClient.readContract({
       address: partyAddress,
       abi: PartyAbi,
