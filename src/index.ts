@@ -10,11 +10,10 @@ ponder.on(
 
 ponder.on("ManageFamAuthority:HypersubSet", handleHypersubSetEvent);
 
-// Check every minute
 setInterval(async () => {
   try {
     await handleSubscriptionExpiration();
   } catch (error) {
     console.error("Error handling subscription expiration:", error);
   }
-}, 30 * 1000);
+}, 30 * 1000); // Check every 30 seconds
