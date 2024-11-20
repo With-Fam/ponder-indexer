@@ -15,7 +15,7 @@
 ### removePartyCards
 
 8. SubscriptionTokenV1Contract:Transfer - create a new lib in the lib/stack/ directory to store the subscription event. Name the event subscription_extended. Please include the `expiration` data of the subscription in the metadata for the event using the Stack SDK. Points should be assigned to the wallet address of the subscriber.
-9. create a variable to store the nextSubscriptionExpiration (epoch timestamp) of the next subscription_event which will expire.
+9. create a function to get the next subscription_extended event which will expire. when the indexer starts, get the expiration timestamp of the subscription_extended event with lowest event.metadata.expiration and set nextSubscriptionExpiration to that value.
 10. SubscriptionTokenV1Contract:Transfer - if the expiration timestamp is less than the nextSubscriptionExpiration, update the nextSubscriptionExpiration with the new timestamp.
 11. once currentTime = nextSubscriptionExpiration, call balanceOf on the SubscriptionTokenV1Contract for the subscriber. If the balance is greater than 0, track subscription_extended event with the new expiration timestamp for the subscriber. if the expiration timestamp is less than the nextSubscriptionExpiration, update the nextSubscriptionExpiration with the new timestamp.
 12. once currentTime = nextSubscriptionExpiration, If the balanceOf is 0, removePartyCards for the expired subscription.

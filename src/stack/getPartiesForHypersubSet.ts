@@ -1,9 +1,9 @@
-import { getAddress } from "viem";
+import { Address, getAddress } from "viem";
 import { stack } from "./client";
 
 export interface HypersubSetEvent {
-  party: string;
-  hypersub: string;
+  party: Address;
+  hypersub: Address;
   blockNumber: string;
   transactionHash: string;
 }
@@ -26,8 +26,8 @@ export async function getPartiesForHypersubSet(
     }
 
     return response.map((event) => ({
-      party: event.metadata.party as string,
-      hypersub: event.account,
+      party: event.metadata.party as Address,
+      hypersub: event.address as Address,
       blockNumber: event.metadata.blockNumber as string,
       transactionHash: event.metadata.transactionHash as string,
     }));

@@ -1,6 +1,7 @@
 import { ponder } from "@/generated";
 import handleHypersubSetEvent from "./join/handleHypersubSetEvent";
 import handleTransferSubscriptionEvent from "./join/handleTransferSubscriptionEvent";
+import { handleSubscriptionExpiration } from "./removePartyCards/handleSubscriptionExpiration";
 
 ponder.on(
   "SubscriptionTokenV1Contract:Transfer",
@@ -8,3 +9,12 @@ ponder.on(
 );
 
 ponder.on("ManageFamAuthority:HypersubSet", handleHypersubSetEvent);
+
+// Check every minute
+setInterval(async () => {
+  try {
+    await handleSubscriptionExpiration();
+  } catch (error) {
+    console.error("Error handling subscription expiration:", error);
+  }
+}, 30 * 1000);
