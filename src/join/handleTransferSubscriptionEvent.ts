@@ -2,6 +2,7 @@ import { getPartiesForHypersubSet } from "../stack/getPartiesForHypersubSet";
 import { Address } from "viem";
 import { IndexerParams } from "../types";
 import addPartyCards from "../manageFamAuthority/addPartyCards";
+import trackSubscriptionExtended from "../stack/trackSubscriptionExtended";
 
 const handleTransferSubscriptionEvent = async ({
   event,
@@ -23,7 +24,8 @@ const handleTransferSubscriptionEvent = async ({
     console.log(
       `Contract ${contractAddress} is configured with ManageFamAuthority - Party: ${partyAddress}`
     );
-    await addPartyCards(partyAddress, subscriber);
+    // await addPartyCards(partyAddress, subscriber);
+    await trackSubscriptionExtended({ event, context });
   } catch (error) {
     console.error("Error verifying hypersub configuration:", error);
     return;
