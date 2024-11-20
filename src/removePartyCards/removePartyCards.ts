@@ -5,30 +5,30 @@ import { publicClient } from "../viem/publicClient";
 import { account } from "../viem/wallet";
 import { Address } from "viem";
 
-const addPartyCards = async (partyAddress: Address, subscriber: Address) => {
+const removePartyCards = async (partyAddress: Address, tokenIds: bigint[]) => {
   try {
-    console.log("Simulating addPartyCards", account.address);
+    console.log("Simulating removePartyCards", account.address);
     const { request } = await publicClient.simulateContract({
       account,
       address: MANAGE_FAM_AUTHORITY_ADDRESS,
       abi: ManageFamAuthorityAbi,
-      functionName: "addPartyCards",
-      args: [partyAddress, [subscriber], [1n], [subscriber]],
+      functionName: "removePartyCards",
+      args: [partyAddress, tokenIds],
     });
 
-    console.log("addPartyCards simulation successful");
+    console.log("removePartyCards simulation successful");
     const hash = await walletClient.writeContract(request);
 
-    console.log("addPartyCards transaction sent:", hash);
+    console.log("removePartyCards transaction sent:", hash);
     const receipt = await publicClient.waitForTransactionReceipt({ hash });
     console.log(
-      "addPartyCards transaction confirmed:",
+      "removePartyCards transaction confirmed:",
       receipt.transactionHash
     );
   } catch (error: any) {
-    console.error("Error executing addPartyCards:", error?.cause || error);
+    console.error("Error executing removePartyCards:", error?.cause || error);
     return;
   }
 };
 
-export default addPartyCards;
+export default removePartyCards;
