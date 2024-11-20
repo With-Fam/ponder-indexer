@@ -1,20 +1,10 @@
 import { IndexerParams } from "../types";
 import { stack } from "./client";
-import { publicClient } from "../viem/publicClient";
-import { SubscriptionTokenV1Abi } from "../../abis/SubscriptionTokenV1Abi";
+import getExpiration from "../hypersub/getExpiration";
 
 const trackSubscriptionExtended = async ({ event, context }: IndexerParams) => {
   const subscriber = (event.args as any).to;
-  const subscriptionData = await publicClient.readContract({
-    address: event.log.address,
-    abi: SubscriptionTokenV1Abi,
-    functionName: "balanceOf",
-    args: [subscriber],
-  });
-  const currentTimeInSeconds = Math.floor(Date.now() / 1000);
-  const expiration = (
-    subscriptionData + BigInt(currentTimeInSeconds)
-  ).toString();
+  const expiration = await getExpiration(event.log.address, subscriber);
   const expirationHumanReadable = new Date(
     Number(expiration) * 1000
   ).toISOString();
