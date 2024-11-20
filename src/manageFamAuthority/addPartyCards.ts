@@ -25,8 +25,8 @@ const addPartyCards = async (partyAddress: Address, subscriber: Address) => {
       "addPartyCards transaction confirmed:",
       receipt.transactionHash
     );
-  } catch (error) {
-    console.error("Error executing addPartyCards:", error);
+  } catch (error: any) {
+    console.error("Error executing addPartyCards:", error?.cause || error);
     return;
   }
 };
