@@ -1,21 +1,31 @@
 import { createConfig } from "@ponder/core";
 import { http } from "viem";
-
-import { ExampleContractAbi } from "./abis/ExampleContractAbi";
+import { SubscriptionTokenV1Abi } from "./abis/SubscriptionTokenV1Abi";
+import { baseSepolia } from "viem/chains";
+import { ManageFamAuthorityAbi } from "./abis/ManageFamAuthorityAbi";
+import {
+  BASE_SEPOLIA_RPC_URL,
+  MANAGE_FAM_AUTHORITY_ADDRESS,
+} from "./src/consts";
 
 export default createConfig({
   networks: {
-    mainnet: {
-      chainId: 1,
-      transport: http(process.env.PONDER_RPC_URL_1),
+    baseSepolia: {
+      chainId: baseSepolia.id,
+      transport: http(BASE_SEPOLIA_RPC_URL),
     },
   },
   contracts: {
-    ExampleContract: {
-      network: "mainnet",
-      abi: ExampleContractAbi,
-      address: "0x0000000000000000000000000000000000000000",
-      startBlock: 1234567,
+    ManageFamAuthority: {
+      network: "baseSepolia",
+      abi: ManageFamAuthorityAbi,
+      startBlock: 17218719,
+      address: MANAGE_FAM_AUTHORITY_ADDRESS,
+    },
+    SubscriptionTokenV1Contract: {
+      network: "baseSepolia",
+      abi: SubscriptionTokenV1Abi,
+      startBlock: 18128556,
     },
   },
 });
