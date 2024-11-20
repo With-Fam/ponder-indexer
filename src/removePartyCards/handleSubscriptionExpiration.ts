@@ -1,13 +1,14 @@
 import { publicClient } from "../viem/publicClient";
-import { SubscriptionTokenV1Abi } from "../../abis/SubscriptionTokenV1Abi";
 import { Address } from "viem";
 import getAllSubscriptionExtendedEvents from "../stack/getAllSubscriptionExtendedEvents";
 import removePartyCards from "./removePartyCards";
 import { getPartiesForHypersubSet } from "../stack/getPartiesForHypersubSet";
 import { PartyAbi } from "../../abis/PartyAbi";
+import getBalanceOf from "../hypersub/getBalanceOf";
 
 export async function handleSubscriptionExpiration() {
   const expiringSubscriptions = await getAllSubscriptionExtendedEvents();
+
   for (const subscription of expiringSubscriptions) {
     const subscriber = subscription.address as Address;
     const contractAddress = subscription.metadata?.hypersub as Address;
@@ -16,12 +17,7 @@ export async function handleSubscriptionExpiration() {
     const isExpired = currentTime > expiration;
     if (!isExpired) continue;
     if (!subscriber || !contractAddress) continue;
-    const balance = await publicClient.readContract({
-      address: contractAddress,
-      abi: SubscriptionTokenV1Abi,
-      functionName: "balanceOf",
-      args: [subscriber],
-    });
+    const balance = await getBalanceOf(contractAddress, subscriber);
     if (balance === 0n) continue;
     const parties = await getPartiesForHypersubSet(contractAddress);
     const partyAddress = parties?.[0]?.party;
