@@ -9,7 +9,6 @@ const handleTransferSubscriptionEvent = async ({
   context,
 }: IndexerParams) => {
   const contractAddress = event.log.address;
-  const subscriber = event.args.to;
 
   try {
     const hypersubEvents = await getPartiesForHypersubSet(contractAddress);
@@ -20,6 +19,7 @@ const handleTransferSubscriptionEvent = async ({
       return;
     }
     const mostRecentConfig = hypersubEvents[hypersubEvents.length - 1];
+    if (!mostRecentConfig) return;
     const partyAddress = mostRecentConfig.party as Address;
     console.log(
       `Contract ${contractAddress} is configured with ManageFamAuthority - Party: ${partyAddress}`

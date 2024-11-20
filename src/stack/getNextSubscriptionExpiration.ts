@@ -10,8 +10,6 @@ export async function getNextSubscriptionExpiration(): Promise<string | null> {
         })
         .build(),
     });
-    console.log("SWEETS getNextSubscriptionExpiration response", response);
-
     if (!response || response.length === 0) {
       return null;
     }
