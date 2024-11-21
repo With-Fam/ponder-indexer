@@ -14,7 +14,7 @@ const handleSubscription = async (subscription: any) => {
   if (!isExpired) return;
   if (!subscriber || !contractAddress) return;
   const balance = await getBalanceOf(contractAddress, subscriber);
-  if (balance === 0n) return;
+  if (balance !== 0n) return;
   const parties = await getPartiesForHypersubSet(contractAddress);
   const partyAddress = parties?.[0]?.party;
   if (parties.length === 0 || !partyAddress) return;
