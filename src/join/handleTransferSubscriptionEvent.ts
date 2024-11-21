@@ -24,7 +24,7 @@ const handleTransferSubscriptionEvent = async ({
     console.log(
       `Contract ${contractAddress} is configured with ManageFamAuthority - Party: ${partyAddress}`
     );
-    await addPartyCards(partyAddress, subscriber);
+    await addPartyCards(partyAddress, event.args.to);
     await trackSubscriptionExtended({ event, context });
   } catch (error) {
     console.error("Error verifying hypersub configuration:", error);

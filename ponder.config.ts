@@ -19,13 +19,13 @@ export default createConfig({
     ManageFamAuthority: {
       network: "baseSepolia",
       abi: ManageFamAuthorityAbi,
-      startBlock: 17218719,
+      startBlock: 18207240,
       address: MANAGE_FAM_AUTHORITY_ADDRESS,
     },
     SubscriptionTokenV1Contract: {
       network: "baseSepolia",
       abi: SubscriptionTokenV1Abi,
-      startBlock: 18128556,
+      startBlock: 18207240,
     },
   },
 });
