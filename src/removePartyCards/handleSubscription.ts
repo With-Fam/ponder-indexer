@@ -10,19 +10,13 @@ const handleSubscription = async (subscription: any) => {
   const contractAddress = subscription.metadata?.hypersub as Address;
   const expiration = BigInt(subscription.metadata?.expiration);
   const currentTime = BigInt(Math.floor(Date.now() / 1000));
-  console.log("subscriber", subscriber);
-
   const isExpired = currentTime > expiration;
   if (!isExpired) return;
   if (!subscriber || !contractAddress) return;
-
   const balance = await getBalanceOf(contractAddress, subscriber);
-  console.log("HYPERSUB balance", balance);
   if (balance !== 0n) return;
   const parties = await getPartiesForHypersubSet(contractAddress);
   const partyAddress = parties?.[0]?.party;
-  console.log("partyAddress", partyAddress);
-
   if (parties.length === 0 || !partyAddress) return;
   const balanceOf = await publicClient.readContract({
     address: partyAddress,
@@ -30,7 +24,6 @@ const handleSubscription = async (subscription: any) => {
     functionName: "balanceOf",
     args: [subscriber],
   });
-  console.log("balanceOf", balanceOf);
   if (balanceOf === 0n) return;
   const tokenCount = await publicClient.readContract({
     address: partyAddress,
