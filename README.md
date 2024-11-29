@@ -14,28 +14,37 @@ Indexer for the Fam Authority using the Ponder Indexer framework.
 
 ### 2. Install Required Software
 
-1. Install Node Version Manager (nvm):
+1. Install system dependencies:
+
+   ```bash
+   apt-get update && apt-get install -y \
+     build-essential \
+     python3 \
+     libc6-dev
+   ```
+
+2. Install Node Version Manager (nvm):
 
    ```bash
    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
    source ~/.bashrc
    ```
 
-2. Install Node.js 20:
+3. Install Node.js 20:
 
    ```bash
    nvm install 20
    nvm use 20
    ```
 
-3. Install pnpm:
+4. Install pnpm:
 
    ```bash
    # Install pnpm
    npm install -g pnpm
    ```
 
-4. Install PM2 globally:
+5. Install PM2 globally:
    ```bash
    npm install -g pm2
    ```
