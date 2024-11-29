@@ -47,14 +47,17 @@ jobs:
             echo "Git status:"
             git status
 
-            export PATH="/root/.nvm/versions/node/v20.18.0/bin:/root/.bun/bin:$PATH"
+            export PATH="/root/.nvm/versions/node/v20.18.0/bin:$PATH"
 
             # Ensure correct Node.js version
             source ~/.nvm/nvm.sh
             nvm use 20
 
+            # Install pnpm if not already installed
+            npm install -g pnpm
+
             # Install dependencies
-            bun install
+            pnpm install
 
             # Start using PM2
             pm2 restart ecosystem.config.cjs --update-env
