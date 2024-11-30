@@ -41,46 +41,44 @@ src/
    - Blockchain types (Block, Log, Transaction)
    - Configuration interfaces
 
-   b. Implement blockchain client using viem
+   b. Create Minimal Working Version:
 
-   - Block fetching
-   - Log filtering
-   - Transaction retrieval
-   - ABI handling
+   1. Create simple client.ts
 
-   c. Create event emitter system
+      - Implement only getBlock and getLogs
+      - Use viem's public client
+      - Test with Ethereum mainnet
 
-   - Event subscription
-   - Event filtering
-   - Event emission
+   2. Create basic config.ts
 
-   d. Build configuration management
+      - Single network (Ethereum mainnet)
+      - Single contract (SubscriptionTokenV1Contract)
+      - Hardcoded ABI for testing
 
-   - Network configuration
-   - Contract configuration
-   - ABI management
+   3. Create simple test script
+      - Connect to network
+      - Fetch recent blocks
+      - Get logs for our contract
+      - Log results to console
 
-   e. Implement main indexer class
+   c. Test & Verify:
 
-   - Block processing
-   - Event handling
-   - Error handling
-   - Checkpoint management
+   - Run test script
+   - Verify block fetching
+   - Verify log filtering
+   - Debug any connection issues
 
-   f. Add tests
+   d. Iterate & Expand:
 
-   - Unit tests for each component
-   - Integration tests for indexer
-   - Mock blockchain data
+   - Add event parsing
+   - Implement event emission
+   - Add checkpoint management
+   - Add error handling
 
-3. Integration Steps:
-   a. Remove existing Ponder dependencies
-   b. Integrate new indexer
-   c. Update event handlers
-   d. Migrate data storage
+3. Future Steps:
+   - Complete remaining implementation steps
+   - Add comprehensive testing
+   - Integrate with main application
+   - Deploy and verify
 
-4. Testing & Deployment:
-   a. Local testing
-   b. Digital Ocean deployment testing
-   c. Performance monitoring
-   d. Error handling verification
+Would you like me to proceed with implementing the minimal client.ts and config.ts files to get a working test version?
