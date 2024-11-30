@@ -4,6 +4,10 @@ import type { BaseEvent } from "./types";
 
 // Initialize the blockchain client
 const network = config.networks.baseSepolia;
+if (!network) {
+  throw new Error("Base Sepolia network configuration not found");
+}
+
 const client = new ViemClient(network);
 
 // Event handlers
@@ -22,19 +26,24 @@ export const startIndexing = async () => {
   const latestBlock = await client.getBlock(BigInt(network.startBlock));
   console.log("Starting indexer at block:", latestBlock.number.toString());
 
+  const manageFamAuthority = config.contracts.ManageFamAuthority;
+  const subscriptionToken = config.contracts.SubscriptionTokenV1Contract;
+
+  if (!manageFamAuthority || !subscriptionToken) {
+    throw new Error("Contract configurations not found");
+  }
+
   // Get logs for both contracts
   const [manageFamLogs, subscriptionLogs] = await Promise.all([
     client.getLogs({
-      fromBlock: BigInt(config.contracts.ManageFamAuthority.startBlock),
+      fromBlock: BigInt(manageFamAuthority.startBlock),
       toBlock: latestBlock.number,
-      address: config.contracts.ManageFamAuthority.address,
+      address: manageFamAuthority.address,
     }),
     client.getLogs({
-      fromBlock: BigInt(
-        config.contracts.SubscriptionTokenV1Contract.startBlock
-      ),
+      fromBlock: BigInt(subscriptionToken.startBlock),
       toBlock: latestBlock.number,
-      address: config.contracts.SubscriptionTokenV1Contract.address,
+      address: subscriptionToken.address,
     }),
   ]);
 
