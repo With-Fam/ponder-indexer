@@ -61,6 +61,7 @@ export interface Transaction {
 export interface NetworkConfig {
   chainId: number;
   rpcUrl: string;
+  startBlock: number;
 }
 
 export interface ContractConfig {
