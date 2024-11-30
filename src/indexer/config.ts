@@ -5,14 +5,16 @@ import { SubscriptionTokenV1Abi, ManageFamAuthorityAbi } from "./abis";
 import {
   BASE_SEPOLIA_RPC_URL,
   MANAGE_FAM_AUTHORITY_ADDRESS,
+  START_BLOCK,
+  CHAIN_ID,
 } from "./constants";
 
 // Base Sepolia network configuration
 const networks: Record<string, NetworkConfig> = {
   baseSepolia: {
-    chainId: baseSepolia.id,
+    chainId: CHAIN_ID,
     rpcUrl: BASE_SEPOLIA_RPC_URL,
-    startBlock: 18207240,
+    startBlock: START_BLOCK,
   },
 };
 
@@ -22,13 +24,13 @@ const contracts: Record<string, ContractConfig> = {
     network: "baseSepolia",
     address: MANAGE_FAM_AUTHORITY_ADDRESS as Address,
     abi: [...ManageFamAuthorityAbi],
-    startBlock: 18207240,
+    startBlock: START_BLOCK,
   },
   SubscriptionTokenV1Contract: {
     network: "baseSepolia",
-    address: "0x0000000000000000000000000000000000000000" as Address,
+    address: MANAGE_FAM_AUTHORITY_ADDRESS as Address,
     abi: [...SubscriptionTokenV1Abi],
-    startBlock: 18207240,
+    startBlock: START_BLOCK,
   },
 };
 

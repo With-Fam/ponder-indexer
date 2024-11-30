@@ -22,14 +22,24 @@ export const startIndexing = async () => {
   const latestBlock = await client.getBlock(BigInt(network.startBlock));
   console.log("Starting indexer at block:", latestBlock.number.toString());
 
-  // Get logs for our contracts
-  const logs = await client.getLogs({
-    fromBlock: BigInt(config.contracts.ManageFamAuthority.startBlock),
-    toBlock: latestBlock.number,
-    address: config.contracts.ManageFamAuthority.address,
-  });
+  // Get logs for both contracts
+  const [manageFamLogs, subscriptionLogs] = await Promise.all([
+    client.getLogs({
+      fromBlock: BigInt(config.contracts.ManageFamAuthority.startBlock),
+      toBlock: latestBlock.number,
+      address: config.contracts.ManageFamAuthority.address,
+    }),
+    client.getLogs({
+      fromBlock: BigInt(
+        config.contracts.SubscriptionTokenV1Contract.startBlock
+      ),
+      toBlock: latestBlock.number,
+      address: config.contracts.SubscriptionTokenV1Contract.address,
+    }),
+  ]);
 
-  console.log("Found logs:", logs.length);
+  console.log("Found ManageFamAuthority logs:", manageFamLogs.length);
+  console.log("Found SubscriptionToken logs:", subscriptionLogs.length);
 
   // TODO: Implement event filtering and emission
 };
