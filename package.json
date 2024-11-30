@@ -4,22 +4,21 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "ponder dev",
-    "start": "ponder start",
-    "codegen": "ponder codegen",
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "build": "tsc",
     "lint": "eslint .",
-    "typecheck": "tsc"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ponder/core": "^0.7.6",
     "@stackso/js-core": "^0.5.5",
     "hono": "^4.5.0",
-    "viem": "^2.21.3"
+    "viem": "^2.21.3",
+    "tsx": "^4.6.2"
   },
   "devDependencies": {
     "@types/node": "^20.9.0",
     "eslint": "^8.53.0",
-    "eslint-config-ponder": "^0.7.6",
     "typescript": "^5.2.2"
   },
   "engines": {
