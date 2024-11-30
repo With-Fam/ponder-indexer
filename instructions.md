@@ -47,11 +47,11 @@ src/
 
       - Implement only getBlock and getLogs
       - Use viem's public client
-      - Test with Ethereum mainnet
+      - Test with base sepolia testnet
 
    2. Create basic config.ts
 
-      - Single network (Ethereum mainnet)
+      - Single network (base sepolia testnet)
       - Single contract (SubscriptionTokenV1Contract)
       - Hardcoded ABI for testing
 
